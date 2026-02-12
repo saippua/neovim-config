@@ -1,6 +1,6 @@
 
 vim.g.mapleader = " "
-vim.o.fileformats = 'dos'
+-- vim.o.fileformats = 'dos'
 
 _G.is_win = vim.uv.os_uname().sysname:find 'Windows' and true or false
 _G.is_linux = vim.uv.os_uname().sysname == 'Linux'
