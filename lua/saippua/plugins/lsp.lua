@@ -31,6 +31,18 @@ return {
       }
     }
 
+    require('lspconfig').groovyls.setup {
+      cmd = { 'groovy-language-server' },
+      settings = {
+        groovy = {
+          classpath = {
+            "/home/huawei/jenkins_libs/core/*",
+            "/home/huawei/jenkins_libs/plugins/*",
+          }
+        }
+      }
+    }
+
     require('lspconfig').neocmake.setup {}
 
     require('lspconfig').clangd.setup {
