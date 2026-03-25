@@ -13,10 +13,13 @@ fi
 
 CONTAINER="$1"
 
-mkdir -p ~/jenkins_libs/lib ~/jenkins_libs/plugins
+mkdir -p ~/jenkins_libs/core ~/jenkins_libs/plugins
 
-echo "Copying libs from $CONTAINER..."
-docker cp "$CONTAINER":/var/jenkins_home/war/WEB-INF/lib/. ~/jenkins_libs/lib/
+echo "Copying core libs from $CONTAINER..."
+docker cp "$CONTAINER":/var/jenkins_home/war/WEB-INF/lib/. ~/jenkins_libs/core/
+
+echo "Copying winstone (jakarta.servlet) from $CONTAINER..."
+docker cp "$CONTAINER":/var/jenkins_home/war/executable/winstone.jar ~/jenkins_libs/core/winstone.jar
 
 echo "Copying plugins from $CONTAINER..."
 docker cp "$CONTAINER":/var/jenkins_home/plugins/. ~/jenkins_libs/plugins/
