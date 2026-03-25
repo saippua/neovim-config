@@ -31,14 +31,16 @@ return {
       }
     }
 
+    local jenkins_classpath = { "/home/huawei/jenkins_libs/core/*" }
+    for _, dir in ipairs(vim.fn.glob("/home/huawei/jenkins_libs/plugins/*/WEB-INF/lib", true, true)) do
+      table.insert(jenkins_classpath, dir .. "/*")
+    end
+
     require('lspconfig').groovyls.setup {
       cmd = { 'groovy-language-server' },
       settings = {
         groovy = {
-          classpath = {
-            "/home/huawei/jenkins_libs/core/*",
-            "/home/huawei/jenkins_libs/plugins/*",
-          }
+          classpath = jenkins_classpath,
         }
       }
     }
