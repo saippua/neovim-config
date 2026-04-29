@@ -7,21 +7,16 @@ return {
   },
   config = function()
     if is_win then
-      require('lspconfig').powershell_es.setup {
+      vim.lsp.config('powershell_es', {
         bundle_path = vim.fn.stdpath('config') .. "\\PowerShellEditorServices",
         init_options = {
           enableProfileLoading = false,
         },
-      }
+      })
+      vim.lsp.enable('powershell_es')
     end
 
-    require('mason-lspconfig').setup_handlers {
-      function(server_name)
-        require('lspconfig')[server_name].setup {}
-      end,
-    }
-
-    require('lspconfig').yamlls.setup {
+    vim.lsp.config('yamlls', {
       settings = {
         yaml = {
           customTags = {
@@ -29,25 +24,27 @@ return {
           }
         }
       }
-    }
+    })
+    vim.lsp.enable('yamlls')
 
     local jenkins_classpath = { "/home/huawei/jenkins_libs/core/*" }
     for _, dir in ipairs(vim.fn.glob("/home/huawei/jenkins_libs/plugins/*/WEB-INF/lib", true, true)) do
       table.insert(jenkins_classpath, dir .. "/*")
     end
 
-    require('lspconfig').groovyls.setup {
+    vim.lsp.config('groovyls', {
       cmd = { 'groovy-language-server' },
       settings = {
         groovy = {
           classpath = jenkins_classpath,
         }
       }
-    }
+    })
+    vim.lsp.enable('groovyls')
 
-    require('lspconfig').neocmake.setup {}
+    vim.lsp.enable('neocmake')
 
-    require('lspconfig').clangd.setup {
+    vim.lsp.config('clangd', {
       cmd = {
         "clangd",
         -- "--background-index",
@@ -67,6 +64,7 @@ return {
         -- "--log=error",
         -- "--query-driver=D:\\Tools\\command-line-tools\\sdk\\default\\openharmony\\native\\llvm\\bin\\clang++.exe"
       },
-    }
+    })
+    vim.lsp.enable('clangd')
   end
 }
