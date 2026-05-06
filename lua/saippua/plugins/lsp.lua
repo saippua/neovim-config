@@ -32,13 +32,24 @@ return {
       table.insert(jenkins_classpath, dir .. "/*")
     end
 
+    local orig_publish = vim.lsp.handlers["textDocument/publishDiagnostics"]
     vim.lsp.config('groovyls', {
       cmd = { 'groovy-language-server' },
       settings = {
         groovy = {
           classpath = jenkins_classpath,
         }
-      }
+      },
+      handlers = {
+        ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+          if result and result.diagnostics then
+            result.diagnostics = vim.tbl_filter(function(d)
+              return not (d.message and d.message:find("Invalid duplicate class definition", 1, true))
+            end, result.diagnostics)
+          end
+          orig_publish(err, result, ctx, config)
+        end,
+      },
     })
     vim.lsp.enable('groovyls')
 
