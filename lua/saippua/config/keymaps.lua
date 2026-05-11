@@ -94,6 +94,22 @@ vim.api.nvim_create_user_command("Context", function() vim.api.nvim_command("TSC
 -- Git
 vim.api.nvim_create_user_command("Blame", function() vim.api.nvim_command("Gitsigns toggle_current_line_blame") end, {})
 
+-- Diff
+vim.api.nvim_create_user_command("Compare", function()
+  local wins = vim.api.nvim_tabpage_list_wins(0)
+  if #wins ~= 2 then
+    vim.notify("Compare requires exactly two windows in the current tab", vim.log.levels.ERROR)
+    return
+  end
+  local buf1 = vim.api.nvim_win_get_buf(wins[1])
+  local buf2 = vim.api.nvim_win_get_buf(wins[2])
+  vim.cmd('tabnew')
+  vim.api.nvim_win_set_buf(0, buf1)
+  vim.cmd('vsplit')
+  vim.api.nvim_win_set_buf(0, buf2)
+  vim.cmd('windo diffthis')
+end, {})
+
 -- Unsets
 vim.keymap.del('n', 'grn') -- Unbind default rename
 
