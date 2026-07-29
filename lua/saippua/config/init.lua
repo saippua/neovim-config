@@ -8,7 +8,7 @@ vim.opt.expandtab = true
 
 vim.opt.smartindent = true
 
-vim.opt.mouse="a"
+vim.opt.mouse=""
 vim.opt.mousemodel="extend"
 
 vim.opt.wrap = false
@@ -45,3 +45,4 @@ end
 
 -- require('saippua.config.terminal')
 require('saippua.config.keymaps')
+require('saippua.config.whitespace')
