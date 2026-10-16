@@ -5,11 +5,13 @@ return {
   config = function()
 
     -- Patch for powershell in windows
-    vim.cmd("let &shell = 'pwsh'")
-    vim.cmd("let &shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'")
-    vim.cmd("let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'")
-    vim.cmd("let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'")
-    vim.cmd("set shellquote= shellxquote=")
+    if is_win then
+      vim.cmd("let &shell = 'pwsh'")
+      vim.cmd("let &shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'")
+      vim.cmd("let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'")
+      vim.cmd("let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'")
+      vim.cmd("set shellquote= shellxquote=")
+    end
 
     require('toggleterm').setup {
       shade_terminals=true,

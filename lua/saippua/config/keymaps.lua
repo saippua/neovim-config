@@ -87,7 +87,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- ToggleTerm
-vim.keymap.set({'n', 'i', 't', 'v'}, '<C-t>', function() vim.api.nvim_command('ToggleTerm') end)
+if not is_linux then
+  vim.keymap.set({'n', 'i', 't', 'v'}, '<C-t>', function() vim.api.nvim_command('ToggleTerm') end)
+end
 vim.api.nvim_create_autocmd( { "TermOpen" }, {
   callback = function(args)
     local opts = { noremap = true, buffer = args.buf }
