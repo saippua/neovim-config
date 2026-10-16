@@ -11,8 +11,9 @@
 local M = {}
 
 function M.setup()
-  local jenkins_classpath = { "/home/huawei/jenkins_libs/core/*" }
-  for _, dir in ipairs(vim.fn.glob("/home/huawei/jenkins_libs/plugins/*/WEB-INF/lib", true, true)) do
+  local jenkins_libs = vim.fn.expand("$HOME") .. "/jenkins_libs"
+  local jenkins_classpath = { jenkins_libs .. "/core/*" }
+  for _, dir in ipairs(vim.fn.glob(jenkins_libs .. "/plugins/*/WEB-INF/lib", true, true)) do
     table.insert(jenkins_classpath, dir .. "/*")
   end
 
