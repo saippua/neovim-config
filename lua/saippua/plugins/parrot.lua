@@ -1,6 +1,8 @@
 return {
   'frankroeder/parrot.nvim',
   dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim' },
+  -- parrot errors on startup without rg or an API key
+  cond = vim.fn.executable('rg') == 1 and os.getenv('ANTHROPIC_API_KEY') ~= nil,
   config = function()
     require("parrot").setup {
       -- Providers must be explicitly set up to make them available.

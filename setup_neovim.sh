@@ -44,6 +44,20 @@ if [[ ! -f "$LOCKFILE" ]]; then
   echo "$DESIRED_VERSION" > "$LOCKFILE"
 fi
 
+# ripgrep is needed by telescope live grep and parrot.nvim.
+if ! command -v rg >/dev/null 2>&1; then
+  echo "Installing ripgrep..."
+  if command -v apt-get >/dev/null 2>&1; then
+    sudo apt-get install -y ripgrep
+  elif command -v dnf >/dev/null 2>&1; then
+    sudo dnf install -y ripgrep
+  elif command -v pacman >/dev/null 2>&1; then
+    sudo pacman -S --noconfirm ripgrep
+  else
+    echo "No supported package manager found; install ripgrep manually." >&2
+  fi
+fi
+
 # First-time setup: symlink the binary into PATH.
 if [[ ! -e /usr/bin/nvim ]]; then
   echo "Creating /usr/bin/nvim symlink..."

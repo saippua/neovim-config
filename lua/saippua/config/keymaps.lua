@@ -14,6 +14,19 @@ vim.keymap.set("v", ">", '>gv', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-j>', '5j', {noremap=true}) -- More speeeeeed!
 vim.keymap.set('n', '<C-k>', '5k', {noremap=true})
 
+-- Copy <file>:start:end of the visual selection to the clipboard
+local function copy_location(modifier)
+  local s, e = vim.fn.line('v'), vim.fn.line('.')
+  if s > e then s, e = e, s end
+  local loc = vim.fn.expand('%' .. modifier) .. ':' .. s
+  if e ~= s then loc = loc .. ':' .. e end
+  vim.fn.setreg('+', loc)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
+  vim.notify("Copied " .. loc)
+end
+vim.keymap.set("v", "<C-l>", function() copy_location(':t') end, { desc = "Copy filename:start:end" })
+vim.keymap.set("v", "<C-S-l>", function() copy_location(':p:.') end, { desc = "Copy relative path:start:end" })
+
 -- "Zoom-mode" maximize current pane with Alt-z
 vim.keymap.set({"n", "v"}, "<A-z>", "<C-w>_<C-w>|", {noremap = true, silent = true})
 vim.keymap.set("i", "<A-z>", "<ESC><C-w>_<C-w>|i", {noremap = true, silent = true})
