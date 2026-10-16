@@ -11,14 +11,13 @@ return {
           name = "anthropic",
           endpoint = "https://api.anthropic.com/v1/messages",
           model_endpoint = "https://api.anthropic.com/v1/models",
-          -- api_key = utils.get_api_key("anthropic-api-key", "ANTHROPIC_API_KEY"),
           api_key = os.getenv "ANTHROPIC_API_KEY",
           params = {
             chat = { max_tokens = 4096 },
             command = { max_tokens = 4096 },
           },
           topic = {
-            model = "claude-3-5-haiku-latest",
+            model = "claude-haiku-4-5-20251001",
             params = { max_tokens = 32 },
           },
           headers = function(self)
@@ -29,10 +28,7 @@ return {
             }
           end,
           models = {
-            "claude-sonnet-4-20250514",
-            "claude-3-7-sonnet-20250219",
-            "claude-3-5-sonnet-20241022",
-            "claude-3-5-haiku-20241022",
+            "claude-opus-4-8",
           },
           preprocess_payload = function(payload)
             for _, message in ipairs(payload.messages) do
